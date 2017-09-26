@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts  PUBLIC 
+"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+     <constant name="struts.objectFactory" value="spring"></constant>
+     
+<package name="default" namespace="/" extends="struts-default">
+   <!-- 定义新拦截器栈 -->
+  <interceptors>
+      <interceptor-stack name="sshStack">
+           <interceptor-ref name="paramsPrepareParamsStack">
+               <param name="prepare.alwaysInvokePrepare">false</param>
+           </interceptor-ref>
+      </interceptor-stack>
+  </interceptors>
+  
+  <default-interceptor-ref name="sshStack"></default-interceptor-ref>
+
+<!-- 指向IOC容器该bean的id -->
+   <action name="emp_*" class="employeeAction" method="{1}">
+     <result type="stream" name="ajax-success">
+      <param name="contentType">text/html</param>
+      <param name="inputName">inputStream</param>
+     </result>
+     <result name="list">/emp-list.jsp</result>
+     <result name="input">/emp_input.jsp</result>
+     <result name="success" type="redirect">/emp_list</result>
+  </action> 
+  <action name="echeckName" class="employeeAction" method="checkName">
+     <result type="stream" name="ajax-success">
+      <param name="contentType">text/html</param>
+      <param name="inputName">inputStream</param>
+     </result>
+     <result name="list">/emp-list.jsp</result>
+     <result name="input">/emp_input.jsp</result>
+     <result name="success" type="redirect">/emp_list</result>
+  </action>
+
+</package>
+</struts>
